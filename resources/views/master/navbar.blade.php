@@ -36,7 +36,7 @@
               </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('post.create')}}">Ajouter</a>
+            <a class="nav-link" href="{{route('posts.create')}}">Ajouter</a>
           </li>
           @else
           <li class="nav-item">
