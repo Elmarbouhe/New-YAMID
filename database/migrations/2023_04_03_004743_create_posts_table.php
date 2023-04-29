@@ -17,6 +17,11 @@ return new class extends Migration
             $table->text('body');
             $table->string('image')->nullable();
             $table->string('slug')->unique();
+            $table->decimal('price', 8, 2)->default(0);
+            $table->decimal('old_price', 8, 2)->default(0);
+            $table->integer('inStock')->default(0);
+            // $table->bigInteger('user_id')->unsigned();
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\post;
 use App\Http\Requests\PostRequest;
+use App\Models\Category;
+use PhpParser\Node\Stmt\Catch_;
 
 class PostController extends Controller
 {
@@ -15,7 +17,8 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view('create');
+        $categories = Category::all();
+        return view('create')->with('categories', $categories);
     }
 
     /**
@@ -39,8 +42,10 @@ class PostController extends Controller
             'slug' => Str::slug($request->title),
             'image' => $image_name ,
             'user_id' => auth()->user()->id,
-
-
+            'price' => $request->price,
+            'old_price' => $request->old_price,
+            'inStock' => $request->inStock,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('home')->with([
@@ -56,32 +61,38 @@ class PostController extends Controller
         //
         return view('show')->with([
             'post' => $post ,
+            'categories' => Category::all(),
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(post $post)
+    public function edit(post $post,)
     {
         //
         return view('edit')->with([
             'post' => $post ,
+            'categories' => Category::all(),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostRequest $request,post $post)
+    public function update(PostRequest $request, $slug)
     {
             //
+        $post = post::where('slug', $slug)->first();
         if($request->has('image')){
             $file = $request->image;
             $image_name = time(). '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads'), $image_name);
             unlink(public_path('uploads/'.$post->image));
             $post->image = $image_name;
+        }
+        else{
+            $post->image = $post->image;
         }
 
         $post->update([
@@ -90,6 +101,10 @@ class PostController extends Controller
             'slug' => Str::slug($request->title),
             'image' => $post->image,
             'user_id' => auth()->user()->id,
+            'price' => $request->price,
+            'old_price' => $request->old_price,
+            'inStock' => $request->inStock,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('home')->with([
@@ -103,7 +118,9 @@ class PostController extends Controller
     public function destroy(post $post)
     {
         //
-        unlink(public_path('uploads/'.$post->image));
+        if(file_exists(public_path('uploads/'.$post->image))){
+            unlink(public_path('uploads/'.$post->image));
+        }
         $post->delete();
         return redirect()->route('home')->with([
             'success' => 'article supprimé avec succès'

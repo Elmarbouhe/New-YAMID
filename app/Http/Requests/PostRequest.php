@@ -25,6 +25,10 @@ class PostRequest extends FormRequest
             'title' => 'required|min:5|max:255',
             'body' => 'required|min:10|max:255',
             'image' => $this->route('slug') ? 'image|mimes:jpeg,png,jpg,gif,svg|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required|numeric',
+            'old_price' => 'required|numeric',
+            'inStock' => 'required|numeric',
+            'category_id' => 'required|numeric',
 
         ];
     }

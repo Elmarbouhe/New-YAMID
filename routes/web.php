@@ -22,4 +22,5 @@ Route::get('/dashboard', function () {return redirect('/');});});
 
 Route::resource('categorys', CategoryController::class);
 Route::resource('posts', PostController::class);
+Route::get('/category/{category}', 'HomeController@showByCategory')->name('category.posts');
 

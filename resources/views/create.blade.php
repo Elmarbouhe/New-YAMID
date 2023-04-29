@@ -30,6 +30,27 @@
                                     <input type="file" class="form-control"  name="image">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Prix</label>
+                                    <input type="number" class="form-control"  name="price" placeholder="Prix">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Old_Prix</label>
+                                    <input type="number" class="form-control"  name="old_price" placeholder="Old Prix">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Nombre d'articles vous ajouter</label>
+                                    <input type="number" class="form-control"  name="inStock" placeholder="nombre d'articles">
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Categorie</label>
+                                    <select class="form-select" name="category_id" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Description</label>
                                     <textarea class="form-control"  name="body" rows="3" placeholder="Description"></textarea>
                                 </div>

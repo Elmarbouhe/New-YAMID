@@ -15,6 +15,10 @@ class post extends Model
         'slug',
         'body',
         'image',
+        'price',
+        'old_price',
+        'inStock',
+        'category_id',
         'user_id',
     ];
 
@@ -29,6 +33,17 @@ class post extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function categorys()
+    {
+        return $this->Belongsto(Category::class);
+    }
+
+
 
 }

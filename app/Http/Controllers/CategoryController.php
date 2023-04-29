@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\post;
+use Illuminate\Support\Str;
+use App\Http\Requests\CategoryRequest;
+use COM;
+
+use function PHPSTORM_META\argumentsSet;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(post $post)
-    {
-
-        return view('home')->with([
-            'posts' => $post ,
-        ]);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         //
+        return view('createCategory');
     }
 
     /**
@@ -31,38 +26,69 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Category::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+        ]);
+
+        return redirect()->route('home')->with([
+            'success' => 'category ajouté avec succès'
+        ]);
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
         //
+        $category = Category::find($category->id);
+        return view('create')->with([
+            'category' => $category ,
+        ]);
+
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
         //
+        return view('editCategory')->with([
+            'category' => $category ,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // public function update(CategoryRequest $request, Category $category)
+    // {
+    //     //
+    //     $category->update([
+    //         'title' => $request->title,
+    //     ]);
+
+    //     return redirect()->route('home')->with([
+    //         'success' => 'article update avec succès'
+    //     ]);
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(category $category)
     {
         //
+        $category->delete();
+        return redirect()->route('home')->with([
+            'success' => 'caregory supprimé avec succès'
+        ]);
+
     }
 }

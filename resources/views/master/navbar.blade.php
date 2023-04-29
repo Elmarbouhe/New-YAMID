@@ -14,20 +14,21 @@
             <a class="nav-link active" aria-current="page" href="{{url('/')}}">Accueil</a>
           </li>
 
-          {{-- <li class="nav-item dropdown">
+           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 categories
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Visage</a></li>
-              <li><a class="dropdown-item" href="#">COMPLÉMENTS ALIMENTAIRES</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Dentaire</a></li>
+                @foreach ($categories as $category)
+                <li class="nav-item">
+                <a href="{{route('category.posts', $category->slug)}}" class="nav-link text-dark" aria-current="page">
+                    {{$category->title}}
+                </a>
+                </li>
+                @endforeach
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled"> Marques</a>
-          </li> --}}
+
 
           @if(auth()->check())
           <li class="nav-item">
@@ -38,6 +39,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{{route('posts.create')}}">Ajouter</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('categorys.create')}}">Ajouter une catégorie</a>
+            </li>
           @else
           <li class="nav-item">
               <a class="nav-link" href="{{route('register')}}">
